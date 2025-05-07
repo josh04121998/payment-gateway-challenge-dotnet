@@ -4,14 +4,14 @@ namespace PaymentGateway.Api.Services;
 
 public class PaymentsRepository
 {
-    public List<PostPaymentResponse> Payments = new();
+    public List<PaymentResponse> Payments = new();
     
-    public void Add(PostPaymentResponse payment)
+    public void Add(PaymentResponse payment)
     {
         Payments.Add(payment);
     }
 
-    public PostPaymentResponse Get(Guid id)
+    public PaymentResponse Get(Guid id)
     {
         return Payments.FirstOrDefault(p => p.Id == id);
     }
