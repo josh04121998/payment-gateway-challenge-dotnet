@@ -55,7 +55,7 @@ request -> validate -> callbank -> update db -> respond to request
         - Allows proper disposal of resources
     - Handle unsuccesful responses
 - Store response in db
-    - Again singleton to allow reuse of connection
+    - Singleton to allow reuse of connection
 - Finally write unit tests based on requirements (validation(declined), accepted, rejected)
     - Check code covergae to make sure no code is unreachable/ untested
 - Refactor time

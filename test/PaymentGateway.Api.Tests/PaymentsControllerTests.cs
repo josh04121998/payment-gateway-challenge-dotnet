@@ -214,7 +214,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Information,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Payment processed successfully, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Payment processed successfully") &&
                                                   v.ToString().Contains($"PaymentId: {paymentResponse.Id}") &&
                                                   v.ToString().Contains($"Status: {PaymentStatus.Authorized}") &&
                                                   v.ToString().Contains($"CardNumberLastFour: {expectedLast4Digits}") &&
@@ -350,7 +350,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Information,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Payment processed successfully, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Payment processed successfully") &&
                                                   v.ToString().Contains($"PaymentId: {paymentResponse.Id}") &&
                                                   v.ToString().Contains($"Status: {PaymentStatus.Declined}") &&
                                                   v.ToString().Contains($"CardNumberLastFour: 8877") &&
@@ -383,7 +383,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment") &&
                                                   v.ToString().Contains($"CardNumberLastFour: 8877") &&
                                                   v.ToString().Contains($"Amount: {paymentRequest.Amount} {paymentRequest.Currency}") &&
                                                   v.ToString().Contains("Error: Bank API error")),
@@ -415,7 +415,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment") &&
                                                   v.ToString().Contains($"CardNumberLastFour: 8877") &&
                                                   v.ToString().Contains($"Amount: {paymentRequest.Amount} {paymentRequest.Currency}") &&
                                                   v.ToString().Contains("Error: Bank service returned an invalid response.")),
@@ -447,7 +447,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment") &&
                                                   v.ToString().Contains($"CardNumberLastFour: 8877") &&
                                                   v.ToString().Contains($"Amount: {paymentRequest.Amount} {paymentRequest.Currency}") &&
                                                   v.ToString().Contains("Error: Failed to deserialize bank response")),
@@ -479,7 +479,7 @@ namespace PaymentGateway.Api.Tests
                 x => x.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment, CorrelationId:") &&
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().StartsWith("Failed to process payment") &&
                                                   v.ToString().Contains($"CardNumberLastFour: 8877") &&
                                                   v.ToString().Contains($"Amount: {paymentRequest.Amount} {paymentRequest.Currency}") &&
                                                   v.ToString().Contains("Error: Bank API request timed out")),

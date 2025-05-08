@@ -15,7 +15,7 @@ namespace PaymentGateway.Api.Features.Payments.Services
 
         public BankService(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<BankPaymentResponse> ProcessPaymentAsync(BankPaymentRequest request)

@@ -20,10 +20,10 @@ namespace PaymentGateway.Api.Features.Payments.Handler
             IPaymentMapper paymentMapper,
             ILogger<PaymentHandler> logger)
         {
-            _acquiringBankService = acquiringBankService ?? throw new ArgumentNullException(nameof(acquiringBankService));
-            _paymentsRepository = paymentsRepository ?? throw new ArgumentNullException(nameof(paymentsRepository));
-            _paymentMapper = paymentMapper ?? throw new ArgumentNullException(nameof(paymentMapper));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _acquiringBankService = acquiringBankService;
+            _paymentsRepository = paymentsRepository;
+            _paymentMapper = paymentMapper;
+            _logger = logger;
         }
 
         public async Task<PaymentResponse> ProcessPaymentAsync(PostPaymentRequest request)
@@ -31,8 +31,6 @@ namespace PaymentGateway.Api.Features.Payments.Handler
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            // Generate a correlation ID for this request
-            var correlationId = Guid.NewGuid().ToString();
             var cardNumberLastFour = request.CardNumber.Substring(request.CardNumber.Length - 4);
             var amount = request.Amount;
             var currency = request.Currency;
@@ -51,15 +49,13 @@ namespace PaymentGateway.Api.Features.Payments.Handler
                 var paymentResponse = _paymentMapper.ToPaymentResponse(request, bankResponse);
                 _paymentsRepository.Add(paymentResponse);
 
-                _logger.LogInformation("Payment processed successfully, CorrelationId: {CorrelationId}, PaymentId: {PaymentId}, Status: {Status}, CardNumberLastFour: {CardNumberLastFour}, Amount: {Amount} {Currency}",
-                    correlationId, paymentResponse.Id, paymentResponse.Status, cardNumberLastFour, amount, currency);
+                _logger.LogInformation("Payment processed successfully, PaymentId: {PaymentId}, Status: {Status}, CardNumberLastFour: {CardNumberLastFour}, Amount: {Amount} {Currency}", paymentResponse.Id, paymentResponse.Status, cardNumberLastFour, amount, currency);
 
                 return paymentResponse;
             }
             catch (Exception ex) when (ex is HttpRequestException or JsonException or TaskCanceledException or PaymentProcessingException)
             {
-                _logger.LogError(ex, "Failed to process payment, CorrelationId: {CorrelationId}, CardNumberLastFour: {CardNumberLastFour}, Amount: {Amount} {Currency}, Error: {ErrorMessage}",
-                    correlationId, cardNumberLastFour, amount, currency, ex.Message);
+                _logger.LogError(ex, "Failed to process payment, CardNumberLastFour: {CardNumberLastFour}, Amount: {Amount} {Currency}, Error: {ErrorMessage}", cardNumberLastFour, amount, currency, ex.Message);
 
                 string userMessage = ex switch
                 {
