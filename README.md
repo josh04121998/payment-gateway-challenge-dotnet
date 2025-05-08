@@ -90,6 +90,7 @@ request -> validate -> callbank -> update db -> respond to request
 - More time... 
     - If I had more time i would implement correlation ids to track the end to end process 
     - end to end / integration tests could be created with a concrete bank and db (test live connections)
+    - map satus to human readable values
     
 
 
